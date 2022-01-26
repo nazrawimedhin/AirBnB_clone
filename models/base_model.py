@@ -11,19 +11,28 @@ class BaseModel:
     """
     This class defines all common attributes/methods for other classes
     """
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
-        Initializes a BaseModel object
+        Initializes a BaseModel object, either from kwargs which contains the object's information or by creating a
+        new one if kwargs is empty
         """
-        self.id = str(uuid4())  # Generate a unique ID for the instance
-        self.created_at = datetime.now()  # Save the time the object was created
-        # Updated every time the object is updated. Initialized to current time when object is created
-        self.updated_at = datetime.now()
+        if kwargs == {}:
+            self.id = str(uuid4())  # Generate a unique ID for the instance
+            self.created_at = datetime.now()  # Save the time the object was created
+            # Updated every time the object is updated. Initialized to current time when object is created
+            self.updated_at = datetime.now()
+        else:
+            for i, j in zip(kwargs.keys(), kwargs.values()):
+                if i == "__class__":
+                    continue
+                if i == "created_at" or i == "updated_at":
+                    self.__setattr__(i, datetime.fromisoformat(j))
+                    continue
+                self.__setattr__(i, j)
 
     def __str__(self):
         """Overriding the __str__ method to display a custom string representation"""
-        print("{} ({}) {}".format(self.__class__.__name__, self.id, self.__dict__))
-        return "{} ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
         """Updates @updated_at to the current date & time"""

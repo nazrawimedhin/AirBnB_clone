@@ -25,7 +25,7 @@ class TestBaseModel(unittest.TestCase):
     def test_string_representation(self):
         """Tests the output of __str__ method of BaseModel"""
         m = BaseModel()
-        self.assertEqual(m.__str__(), "{} ({}) {}".format(m.__class__.__name__, m.id, m.__dict__))
+        self.assertEqual(m.__str__(), "[{}] ({}) {}".format(m.__class__.__name__, m.id, m.__dict__))
 
     def test_save(self):
         """Tests if update_time is updated correctly when BaseModel's save() is called"""
@@ -42,6 +42,20 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(m.to_dict().get("__class__"), "BaseModel")
         self.assertEqual(m.to_dict().get("created_at"), created_at)
         self.assertEqual(m.to_dict().get("updated_at"), m.updated_at.isoformat())
+
+    def test_kwargs(self):
+        """Tests the handling of **kwargs (dictionary) instantiation of BaseModel"""
+        m1 = BaseModel()
+        m2 = BaseModel(**m1.to_dict())
+        self.assertEqual(m1.to_dict(), m2.to_dict())
+        self.assertFalse(m1 is m2)
+
+        m1 = BaseModel()
+        sleep(0.003)
+        m1.save()
+        self.assertFalse(m1 is m2)
+        m2 = BaseModel(**m1.to_dict())
+        self.assertEqual(m1.to_dict(), m2.to_dict())
 
 
 if __name__ == '__main__':
