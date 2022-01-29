@@ -44,6 +44,7 @@ class TestFileStorage(unittest.TestCase):
         """Tests if FileStorage handles empty object storage file works
         correctly"""
 
+        file_contents = ""
         if os.path.exists(self.file_name):
             with open(self.file_name, "r") as f:
                 file_contents = f.read()
