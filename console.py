@@ -10,6 +10,11 @@ class HBNBCommand(cmd.Cmd):
     """The console program for this AirBnB clone starts here"""
     prompt = "(hbnb) "
 
+    def emptyline(self):
+        """Empty line + Enter will just return the prompt without any error.
+        i.e. the prompt will not execute the previous command"""
+        return False
+
     def do_quit(self, arg):
         """Exit the HBNB console:  quit"""
         return True
@@ -20,4 +25,8 @@ class HBNBCommand(cmd.Cmd):
 
 
 if __name__ == '__main__':
-    HBNBCommand().cmdloop()
+    try:
+        HBNBCommand().cmdloop()
+    except KeyboardInterrupt:
+        print()
+        quit(0)
