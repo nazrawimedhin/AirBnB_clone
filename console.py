@@ -20,5 +20,4 @@ class HBNBCommand(cmd.Cmd):
 
 
 if __name__ == '__main__':
-    hbnb_console = HBNBCommand()
-    hbnb_console.cmdloop()
+    HBNBCommand().cmdloop()
