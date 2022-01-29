@@ -42,8 +42,9 @@ class HBNBCommand(cmd.Cmd):
             print(bm.to_dict().get("id"))
 
     def do_show(self, arg):
-        """Prints the string representation of an instance based on the
-        class name and id
+        """Prints the string representation of an instance based on
+        the classname and id
+        Usage: show <class_name> <id>
         Example: show BaseModel 1234-1234-1234"""
         if arg == "":
             print("** class name missing **")
@@ -51,12 +52,29 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         else:
             try:
+                id = arg.split()[1]
                 for i in self.storage.all().values():
-                    if arg.split()[1] == i.to_dict()["id"]:
+                    if id == i.to_dict()["id"]:
                         # Print the object to the screen
                         print(i)
                         return False
+                print("** no instance found **")
+            except IndexError:
                 print("** instance id missing **")
+
+    def do_destroy(self, arg):
+        """Deletes the object with the matching id
+        Usage: destroy <class_name> <id>
+        Example: destroy BaseModel 121212"""
+        if arg == "":
+            print("** class name missing **")
+        elif arg.split()[0] not in self.storage.all_models.keys():
+            print("** class doesn't exist **")
+        else:
+            try:
+                if self.storage.destroy(arg.split()[1]):
+                    return False
+                print("** no instance found **")
             except IndexError:
                 print("** instance id missing **")
 
