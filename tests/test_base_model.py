@@ -43,7 +43,8 @@ class TestBaseModel(unittest.TestCase):
         created_at = m.created_at.isoformat()
         self.assertEqual(m.to_dict().get("__class__"), "BaseModel")
         self.assertEqual(m.to_dict().get("created_at"), created_at)
-        self.assertEqual(m.to_dict().get("updated_at"), m.updated_at.isoformat())
+        self.assertEqual(m.to_dict().get("updated_at"),
+                         m.updated_at.isoformat())
 
     def test_kwargs(self):
         """Tests the handling of **kwargs (dictionary)
