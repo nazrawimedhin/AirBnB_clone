@@ -78,6 +78,29 @@ class HBNBCommand(cmd.Cmd):
             except IndexError:
                 print("** instance id missing **")
 
+    def do_all(self, arg):
+        """Prints all string representation of all instances based on or not
+        on the class name
+        Usage: all <class_name>
+               all
+        Example: all BaseModel"""
+        all_objs = []
+        try:
+            if arg.split()[0] not in self.storage.all_models.keys():
+                print("** class doesn't exist **")
+                return False
+            for i in self.storage.all().values():
+                if i.to_dict()["__class__"] == arg.split()[0]:
+                    all_objs.append(i.__str__() + " " + str())
+            print(all_objs)
+
+        #  IndexError is raised only if the prompt takes 'all' only,
+        #  hence print all the objects stored
+        except IndexError:
+            for i in self.storage.all().values():
+                all_objs.append(i.__str__())
+            print(all_objs)
+
 
 if __name__ == '__main__':
     try:
