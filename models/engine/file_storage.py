@@ -12,11 +12,10 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}  # Stores all objects by <class name>.id
 
-    def __init__(self):
-        """Initializes FileStorage instance, """
-        self.all_models = {
-            "BaseModel": import_module("models.base_model").BaseModel
-        }
+    #  Holds all the possible classes that objects can be made from
+    all_models = {
+        "BaseModel": import_module("models.base_model").BaseModel
+    }
 
     def all(self):
         """Returns all objects in __objects"""
