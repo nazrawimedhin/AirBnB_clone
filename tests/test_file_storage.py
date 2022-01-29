@@ -48,8 +48,10 @@ class TestFileStorage(unittest.TestCase):
             with open(self.file_name, "r") as f:
                 file_contents = f.read()
             with open(self.file_name, "w") as f:
+                f.seek(0)
                 f.write("")
 
+        self.storage.reload()
         bm = self.BaseModel()
         bm.save()
         all_objs = self.storage.all()
