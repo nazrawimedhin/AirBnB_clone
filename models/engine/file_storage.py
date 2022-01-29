@@ -35,6 +35,19 @@ class FileStorage:
                 to_write_to_json.update([(i, j.to_dict())])
             f.write(json.dumps(to_write_to_json))
 
+    def destroy(self, id_to_delete):
+        """Finds a BaseModel with matching id in __objects, deletes it and
+        updates __file_path to delete it in the JSON as well
+
+        Returns: True, if the object was found, and it's deleted
+                 False, if the object wasn't found"""
+        for i, j in zip(self.__objects.keys(), self.__objects.values()):
+            if id_to_delete == j.to_dict()["id"]:
+                self.__objects.pop(i)
+                self.save()
+                return True
+        return False
+
     def reload(self):
         """Loads objects from __file_path and stores them in __objects"""
         self.__objects = {}
