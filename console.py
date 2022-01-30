@@ -171,8 +171,16 @@ class HBNBCommand(cmd.Cmd):
                                  0].strip("\"").strip("\'"))
             elif function == "destroy":
                 self.do_destroy(class_name + " " +
-                             line_split[1].split('(')[1].split(')')[
+                                line_split[1].split('(')[1].split(')')[
                                  0].strip("\"").strip("\'"))
+            elif function == "update":
+                self.do_update(class_name + " " +
+                               line_split[1].split('(')[1].
+                               split(",")[0].strip("\"").strip("\'") + " " +
+                               line_split[1].split(',')[1].
+                               strip(' ').strip("\"").strip("\'") + " " +
+                               line_split[1].split('(')[1].split(',')[2].
+                               strip(')').strip(' '))
         else:
             cmd.Cmd.default()
 
