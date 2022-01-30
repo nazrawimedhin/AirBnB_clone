@@ -174,9 +174,18 @@ class HBNBCommand(cmd.Cmd):
                                 line_split[1].split('(')[1].split(')')[
                                  0].strip("\"").strip("\'"))
             elif function == "update":
-                self.do_update(class_name + " " +
-                               line_split[1].split('(')[1].
-                               split(",")[0].strip("\"").strip("\'") + " " +
+                dict_update = line_split[1][line_split[1].find('{'):
+                                            line_split[1].find('}') + 1]
+                obj_id = line_split[1].split('(')[1].split(",")[0].\
+                    strip("\"").strip("\'")
+                if dict_update and dict_update[0] == '{' and dict_update[-1]\
+                        == '}':
+                    dict_update = eval(dict_update)
+                    for key, value in dict_update.items():
+                        self.do_update(class_name + " " + obj_id + " " + key
+                                       + " " + str(value))
+                    return False
+                self.do_update(class_name + " " + obj_id + " " +
                                line_split[1].split(',')[1].
                                strip(' ').strip("\"").strip("\'") + " " +
                                line_split[1].split('(')[1].split(',')[2].
