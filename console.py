@@ -162,9 +162,13 @@ class HBNBCommand(cmd.Cmd):
             function = line_split[1].split('(')[0]
             if function == "all":
                 self.do_all(class_name)
-            if function == "count":
+            elif function == "count":
                 print(len([x for x in self.storage.all().values() if
                            x.to_dict()["__class__"] == class_name]))
+            elif function == "show":
+                self.do_show(class_name + " " +
+                             line_split[1].split('(')[1].split(')')[
+                                 0].strip("\"").strip("\'"))
         else:
             cmd.Cmd.default()
 
