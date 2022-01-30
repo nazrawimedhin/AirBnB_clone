@@ -2,7 +2,6 @@
 
 """Module user
 Contains class User that inherits from BaseModel"""
-
 from models import base_model
 
 
