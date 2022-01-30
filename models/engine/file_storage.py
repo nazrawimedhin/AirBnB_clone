@@ -12,11 +12,10 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}  # Stores all objects by <class name>.id
 
-    def __init__(self):
-        """Initializes FileStorage instance, """
-        self.all_models = {
-            "BaseModel": import_module("models.base_model").BaseModel
-        }
+    #  Holds all the possible classes that objects can be made from
+    all_models = {
+        "BaseModel": import_module("models.base_model").BaseModel
+    }
 
     def all(self):
         """Returns all objects in __objects"""
@@ -35,6 +34,19 @@ class FileStorage:
             for i, j in zip(self.__objects.keys(), self.__objects.values()):
                 to_write_to_json.update([(i, j.to_dict())])
             f.write(json.dumps(to_write_to_json))
+
+    def destroy(self, id_to_delete):
+        """Finds a BaseModel with matching id in __objects, deletes it and
+        updates __file_path to delete it in the JSON as well
+
+        Returns: True, if the object was found, and it's deleted
+                 False, if the object wasn't found"""
+        for i, j in zip(self.__objects.keys(), self.__objects.values()):
+            if id_to_delete == j.to_dict()["id"]:
+                self.__objects.pop(i)
+                self.save()
+                return True
+        return False
 
     def reload(self):
         """Loads objects from __file_path and stores them in __objects"""

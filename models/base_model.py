@@ -42,9 +42,10 @@ class BaseModel:
             self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
-        """Updates @updated_at to the current date & time"""
-        models.storage.save()
+        """Saves this object to the storage and updates @updated_at to the
+        current date & time"""
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """Returns a dictionary containing all keys/values of
