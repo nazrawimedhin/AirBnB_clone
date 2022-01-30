@@ -12,7 +12,7 @@ class TestState(unittest.TestCase):
     Tests all methods of State
     """
     def test_instantiation(self):
-        """Tests if instances of City have none-empty attributes"""
+        """Tests if instances of State have none-empty attributes"""
         s = State()
         s.name = "New Hampshire"
         self.assertIsNotNone(s)
@@ -32,7 +32,7 @@ class TestState(unittest.TestCase):
 
     def test_save(self):
         """Tests if update_time is updated correctly when
-        BaseModel's save() is called"""
+        State's save() is called"""
         s = State()
         s.name = "New Hampshire"
         update_time = s.updated_at
@@ -41,7 +41,7 @@ class TestState(unittest.TestCase):
         self.assertNotEqual(update_time, s.updated_at)
 
     def test_to_dict(self):
-        """Tests the to_dict() method of BaseModel and makes
+        """Tests the to_dict() method of State and makes
         sure it returns the correct dictionary"""
         s = State()
         s.name = "New Hampshire"
@@ -54,7 +54,7 @@ class TestState(unittest.TestCase):
 
     def test_kwargs(self):
         """Tests the handling of **kwargs (dictionary)
-        instantiation of BaseModel"""
+        instantiation of State"""
         s1 = State()
         s1.name = "New Hampshire"
         s2 = State(**s1.to_dict())
