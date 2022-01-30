@@ -169,6 +169,10 @@ class HBNBCommand(cmd.Cmd):
                 self.do_show(class_name + " " +
                              line_split[1].split('(')[1].split(')')[
                                  0].strip("\"").strip("\'"))
+            elif function == "destroy":
+                self.do_destroy(class_name + " " +
+                             line_split[1].split('(')[1].split(')')[
+                                 0].strip("\"").strip("\'"))
         else:
             cmd.Cmd.default()
 
