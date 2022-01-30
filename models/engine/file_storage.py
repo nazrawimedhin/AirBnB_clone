@@ -14,7 +14,8 @@ class FileStorage:
 
     #  Holds all the possible classes that objects can be made from
     all_models = {
-        "BaseModel": import_module("models.base_model").BaseModel
+        "BaseModel": import_module("models.base_model").BaseModel,
+        "User": import_module("models.user").User
     }
 
     def all(self):
