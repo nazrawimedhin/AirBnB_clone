@@ -12,7 +12,7 @@ class TestState(unittest.TestCase):
     Tests all methods of State
     """
     def test_instantiation(self):
-        """Tests if instances of BaseModel have none-empty attributes"""
+        """Tests if instances of City have none-empty attributes"""
         s = State()
         s.name = "New Hampshire"
         self.assertIsNotNone(s)
