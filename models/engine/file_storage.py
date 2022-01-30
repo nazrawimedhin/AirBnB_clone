@@ -16,7 +16,11 @@ class FileStorage:
     all_models = {
         "BaseModel": import_module("models.base_model").BaseModel,
         "User": import_module("models.user").User,
-        "State": import_module("models.state").State
+        "State": import_module("models.state").State,
+        "City": import_module("models.city").City,
+        "Amenity": import_module("models.amenity").Amenity,
+        "Place": import_module("modles.place").Place,
+        "Review": import_module("models.review").Review
     }
 
     def all(self):
