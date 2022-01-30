@@ -154,6 +154,17 @@ class HBNBCommand(cmd.Cmd):
                             str(arg[3]).strip('\"').strip('\''))
                     obj_to_update.save()
 
+    def default(self, line):
+        """For more sophisticated commands"""
+        line_split = line.split('.')
+        class_name = line_split[0]
+        if class_name in self.storage.all_models.keys():
+            function = line_split[1].split('(')[0]
+            if function == "all":
+                self.do_all(class_name)
+        else:
+            cmd.Cmd.default()
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
