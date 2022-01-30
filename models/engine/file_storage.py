@@ -19,7 +19,7 @@ class FileStorage:
         "State": import_module("models.state").State,
         "City": import_module("models.city").City,
         "Amenity": import_module("models.amenity").Amenity,
-        "Place": import_module("modles.place").Place,
+        "Place": import_module("models.place").Place,
         "Review": import_module("models.review").Review
     }
 
