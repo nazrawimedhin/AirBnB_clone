@@ -7,6 +7,7 @@ import cmd
 import models
 
 
+# noinspection PyMethodMayBeStatic
 class HBNBCommand(cmd.Cmd):
     """The console program for this AirBnB clone starts here"""
     prompt = "(hbnb) "
@@ -32,12 +33,13 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, arg):
         """Create a new instance with the argument as the class name
         Create a new instance of BaseModel: create BaseModel"""
-        if arg == "":
+        arg = [s for s in arg.split()]
+        if len(arg) == 0:
             print("** class name missing **")
-        elif arg not in self.storage.all_models.keys():
+        elif arg[0] not in self.storage.all_models.keys():
             print("** class doesn't exist **")
         else:
-            bm = self.storage.all_models.get(arg)()
+            bm = self.storage.all_models.get(arg[0])()
             bm.save()
             print(bm.to_dict().get("id"))
 
@@ -46,37 +48,38 @@ class HBNBCommand(cmd.Cmd):
         the classname and id
         Usage: show <class_name> <id>
         Example: show BaseModel 1234-1234-1234"""
-        if arg == "":
+        arg = [s for s in arg.split()]
+        if len(arg) == 0:
             print("** class name missing **")
-        elif arg.split()[0] not in self.storage.all_models.keys():
+        elif arg[0] not in self.storage.all_models.keys():
             print("** class doesn't exist **")
+        elif len(arg) == 1:
+            print("** instance id missing **")
+        elif arg[1] not in [x.to_dict()["id"] for x in
+                            self.storage.all().values() if
+                            x.to_dict()["__class__"] == arg[0]]:
+            print("** no instance found **")
         else:
-            try:
-                id = arg.split()[1]
-                for i in self.storage.all().values():
-                    if id == i.to_dict()["id"]:
-                        # Print the object to the screen
-                        print(i)
-                        return False
-                print("** no instance found **")
-            except IndexError:
-                print("** instance id missing **")
+            print([i for i in self.storage.all().values() if
+                   arg[1] == i.to_dict()["id"]][0])
 
     def do_destroy(self, arg):
         """Deletes the object with the matching id
         Usage: destroy <class_name> <id>
         Example: destroy BaseModel 121212"""
-        if arg == "":
+        arg = [s for s in arg.split()]
+        if len(arg) == 0:
             print("** class name missing **")
-        elif arg.split()[0] not in self.storage.all_models.keys():
+        elif arg[0] not in self.storage.all_models.keys():
             print("** class doesn't exist **")
+        elif len(arg) == 1:
+            print("** instance id missing **")
+        elif arg[1] not in [x.to_dict()["id"] for x in
+                            self.storage.all().values() if
+                            x.to_dict()["__class__"] == arg[0]]:
+            print("** no instance found **")
         else:
-            try:
-                if self.storage.destroy(arg.split()[1]):
-                    return False
-                print("** no instance found **")
-            except IndexError:
-                print("** instance id missing **")
+            self.storage.destroy(arg[1])
 
     def do_all(self, arg):
         """Prints all string representation of all instances based on or not
@@ -84,22 +87,72 @@ class HBNBCommand(cmd.Cmd):
         Usage: all <class_name>
                all
         Example: all BaseModel"""
-        all_objs = []
-        try:
-            if arg.split()[0] not in self.storage.all_models.keys():
+        arg = [s for s in arg.split()]
+
+        if arg:
+            if arg[0] not in self.storage.all_models.keys():
                 print("** class doesn't exist **")
                 return False
-            for i in self.storage.all().values():
-                if i.to_dict()["__class__"] == arg.split()[0]:
-                    all_objs.append(i.__str__() + " " + str())
-            print(all_objs)
+            else:
+                #  Put all objects with matching class names in all_objs
+                all_objs = [x.__str__() for x in self.storage.all().values() if
+                            x.to_dict()["__class__"] == arg[0]]
+        else:
+            #  Put all objects in the file storage in all_objs since no
+            #  class specifier was issued
+            all_objs = [x.__str__() for x in self.storage.all().values()]
 
-        #  IndexError is raised only if the prompt takes 'all' only,
-        #  hence print all the objects stored
-        except IndexError:
-            for i in self.storage.all().values():
-                all_objs.append(i.__str__())
-            print(all_objs)
+        print(all_objs)
+
+    def do_update(self, arg):
+        """Updates an instance based on the class name and id by adding or
+        updating attribute, and saves it to the file storage (currently the
+        JSON file
+        Usage: update <class_name> <id> <attribute_name> <attribute_value>
+        Example: update BaseModel 128vfb43 email "anderson@mail.com" """
+        self.storage.reload()
+        arg = [s for s in arg.split()]
+        if len(arg) == 0:
+            print("** class name missing **")
+        elif arg[0] not in self.storage.all_models.keys():
+            print("** class doesn't exist **")
+        elif len(arg) == 1:
+            print("** instance id missing **")
+        elif arg[1] not in [x.to_dict()["id"] for x in
+                            self.storage.all().values() if
+                            x.to_dict()["__class__"] == arg[0]]:
+            print("** no instance found **")
+        elif len(arg) == 2:
+            print("** attribute name missing **")
+        elif len(arg) == 3:
+            print("** value missing **")
+        else:
+            #  Get the object to update by matching the class name and the
+            #  id arguments using list comprehension
+            obj_to_update = [x for x in list(self.storage.all().values()) if
+                             x.to_dict()["__class__"] == arg[0] and
+                             x.to_dict()["id"] == arg[1]][0]
+
+            #  Check if the <attribute_value> is an int. If it throws a
+            #  ValueError exception, it's not an int; it's a string or a float
+            try:
+                if str(int(arg[3])) == arg[3]:
+                    setattr(obj_to_update, arg[2], int(arg[3]))
+                    obj_to_update.save()
+            except ValueError:
+                #  Check if arg[3] (attribute_value) is a float. If it's
+                #  not, it'll throw a ValueError.
+                try:
+                    if str(float(arg[3])) == arg[3]:
+                        setattr(obj_to_update, arg[2], float(arg[3]))
+                        obj_to_update.save()
+                except ValueError:
+                    #  arg[3] (attribute_value) is neither a float nor an
+                    #  int; it must be a string hence add the attribute as a
+                    #  string. Strip quotations if it has any
+                    setattr(obj_to_update, arg[2],
+                            str(arg[3]).strip('\"').strip('\''))
+                    obj_to_update.save()
 
 
 if __name__ == '__main__':
