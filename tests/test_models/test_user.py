@@ -1,18 +1,18 @@
 #!/usr/bin/python3
 """
-This module unit tests the module models/base_model
+This module unit tests the module models/state
 """
 import unittest
 from time import sleep
 from models.user import User
 
 
-class TestBaseModel(unittest.TestCase):
+class TestUser(unittest.TestCase):
     """
-    Tests all methods of BaseModel
+    Tests all methods of User
     """
     def test_instantiation(self):
-        """Tests if instances of BaseModel have none-empty attributes"""
+        """Tests if instances of User have none-empty attributes"""
         u = User()
         u.email = "alanwalker@ubi.com"
         u.password = "as34b2"
@@ -26,7 +26,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(u.created_at, u.updated_at)
 
     def test_string_representation(self):
-        """Tests the output of __str__ method of BaseModel"""
+        """Tests the output of __str__ method of User"""
         u = User()
         u.email = "alanwalker@ubi.com"
         u.password = "as34b2"
@@ -36,8 +36,8 @@ class TestBaseModel(unittest.TestCase):
             u.__class__.__name__, u.id, u.__dict__))
 
     def test_save(self):
-        """Tests if update_time is updated correctly when
-        BaseModel's save() is called"""
+        """Tests if update_time is updated correctly when User's save() is
+        called"""
         u = User()
         u.email = "alanwalker@ubi.com"
         u.password = "as34b2"
@@ -49,7 +49,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(update_time, u.updated_at)
 
     def test_to_dict(self):
-        """Tests the to_dict() method of BaseModel and makes
+        """Tests the to_dict() method of User and makes
         sure it returns the correct dictionary"""
         u = User()
         u.email = "alanwalker@ubi.com"
@@ -68,7 +68,7 @@ class TestBaseModel(unittest.TestCase):
 
     def test_kwargs(self):
         """Tests the handling of **kwargs (dictionary)
-        instantiation of BaseModel"""
+        instantiation of User"""
         u1 = User()
         u1.email = "alanwalker@ubi.com"
         u1.password = "as34b2"
