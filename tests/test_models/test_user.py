@@ -4,7 +4,7 @@ This module unit tests the module models/base_model
 """
 import unittest
 from time import sleep
-from models.user import  User
+from models.user import User
 
 
 class TestBaseModel(unittest.TestCase):
