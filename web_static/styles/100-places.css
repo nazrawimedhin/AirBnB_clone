@@ -68,15 +68,15 @@
 }
 
 .places .information .max_guest {
-    background-image: url("/web_static/images/icon_guests.png");
+    background-image: url("../images/icon_guests.png");
 }
 
 .places .information .number_rooms {
-    background-image: url("/web_static/images/icon_bed.png");
+    background-image: url("../images/icon_bed.png");
 }
 
 .places .information .number_bathrooms {
-    background-image: url("/web_static/images/icon_bath.png");
+    background-image: url("../images/icon_bath.png");
 }
 
 .places .amenities, .places .reviews{
@@ -101,17 +101,17 @@
 }
 
 .places .amenities .tv {
-    background: url("/web_static/images/icon_tv.png") no-repeat;
+    background: url("../images/icon_tv.png") no-repeat;
     background-size: 4.8%;
 }
 
 .places .amenities .wifi {
-    background: url("/web_static/images/icon_wifi.png") no-repeat;
+    background: url("../images/icon_wifi.png") no-repeat;
     background-size: 4.8%;
 }
 
 .places .amenities .pets {
-    background: url("/web_static/images/icon_pets.png") no-repeat;
+    background: url("../images/icon_pets.png") no-repeat;
     background-size: 4.8%;
 }
 

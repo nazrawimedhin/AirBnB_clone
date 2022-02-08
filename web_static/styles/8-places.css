@@ -68,13 +68,13 @@
 }
 
 .places .information .max_guest {
-    background-image: url("/web_static/images/icon_guests.png");
+    background-image: url("../images/icon_guests.png");
 }
 
 .places .information .number_rooms {
-    background-image: url("/web_static/images/icon_bed.png");
+    background-image: url("../images/icon_bed.png");
 }
 
 .places .information .number_bathrooms {
-    background-image: url("/web_static/images/icon_bath.png");
+    background-image: url("../images/icon_bath.png");
 }
